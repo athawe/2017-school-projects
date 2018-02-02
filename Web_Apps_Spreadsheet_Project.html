@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<!--Aaron Thawe Project 2017 Web apps & Standards -->
+<html>
+<head runat="server">
+    <title>Aaron Thawe's DHTML Project</title>
+    <style type="text/css">
+        body {
+            background-color: #BFC9DC;
+        }
+
+        .Buttons {
+            position: absolute;
+            height: 25px;
+            font-family: Arial, Helvetica;
+            font-size: 11pt;
+            color: #002594;
+        }
+
+        .LblInfoGray {
+            font-family: Verdana, Arial, Helvetica;
+            font-size: 10pt;
+            color: #5a5a5a;
+            position: relative;
+            text-align: left;
+            padding-top: 4px;
+        }
+
+        .TableClass {
+            font-family: Verdana, Arial, Helvetica;
+            font-size: 9.0pt;
+        }
+
+        .BaseColumn {
+            text-align: center;
+        }
+
+        .AlphaColumn {
+            width: 40px;
+            cursor: pointer;
+            background-color: #C3DAF9;
+            border: 1px solid #002d96;
+        }
+        .SelectedBox {
+            width: 40px;
+            cursor: pointer;
+            background-color: #8898ae;
+            border: 1px solid #00164b;
+        }
+    </style>
+    <script language="JavaScript" type="text/javascript">
+        // Example of using Dynamic HTML to build a spreadsheet table
+        var data = [];
+        var formulas = [];
+        var selectedCol = 100, selectedRow = 100;
+        //Set up data array, formula array, and call buildTable function
+        function createSpreadsheet() {
+            var rows = 20;
+            var columns = 10;
+            for(var i = 0; i < 20; i++){
+                data[i] = [];
+                formulas[i] = [];
+                for(var j = 0; j < 10; j++){
+                    data[i][j] = 0;
+                    formulas[i][j] = "";
+                }
+            }
+            document.getElementById("SpreadsheetTable").innerHTML = buildTable(rows, columns, selectedRow, selectedCol);
+            LoadData();
+        }
+
+        // ***************************************************
+        // function builds the table based on rows and columns
+        function buildTable(rows, columns, selectedRow, selectedColumn) {
+            // start with the table declaration
+            var divHTML = "<table border='1' cellpadding='0' cellspacing='0' class='TableClass'>";
+
+            // next do the column header labels
+            divHTML += "<tr><th></th>";
+
+            for (var j = 0; j < columns; j++)
+                divHTML += "<th>" + String.fromCharCode(j + 65) + "</th>";
+
+            // closing row tag for the headers
+            divHTML += "</tr>";
+
+            // now do the main table area
+            for (var i = 1; i <= rows; i++) {
+                divHTML += "<tr>";
+                // ...first column of the current row (row label)
+                divHTML += "<td id='" + i + "_0' class='BaseColumn'>" + i + "</td>";
+
+                // ... the rest of the columns
+                for (var j = 1; j <= columns; j++)
+                    if(formulas[i-1][j-1] !== ""){
+                        if(i == selectedRow && j == selectedColumn){
+                            divHTML += "<td id='" + i + "_" + j + "' class='SelectedBox' onclick='clickCell(this)'>" + calcSum(formulas[i-1][j-1]) + "</td>";
+                        } else {
+                            divHTML += "<td id='" + i + "_" + j + "' class='AlphaColumn' onclick='clickCell(this)'>" + calcSum(formulas[i-1][j-1]) + "</td>";
+                        }
+                    } else {
+                        if(i == selectedRow && j == selectedColumn){
+                            divHTML += "<td id='" + i + "_" + j + "' class='SelectedBox' onclick='clickCell(this)'>" + data[i-1][j-1] + "</td>";
+                        } else {
+                            divHTML += "<td id='" + i + "_" + j + "' class='AlphaColumn' onclick='clickCell(this)'>" + data[i-1][j-1] + "</td>";
+                        }
+                    }
+                // ...end of row
+                divHTML += "</tr>";
+            }
+
+            // finally add the end of table tag
+            divHTML += "</table>";
+
+            //alert(divHTML);
+            return divHTML;
+        }
+
+        // *******************************************
+        // event handler fires when user clicks a cell
+        function clickCell(ref) {
+            var rcArray = ref.id.split('_');
+            selectedRow = parseInt(rcArray[0]);
+            selectedCol = parseInt(rcArray[1]);
+            document.getElementById("SpreadsheetTable").innerHTML = buildTable(20, 10, selectedRow, selectedCol);
+            if (document.getElementById("txtInput").value === "" ||isNaN(document.getElementById("txtInput").value)){
+                document.getElementById(ref.id).innerHTML = 0;
+            } else {
+                document.getElementById(ref.id).innerHTML = parseInt(document.getElementById("txtInput").value);
+            }
+        }
+
+        //test for SUM formula, returning either NULL where formula not found or formula data
+        function getFormula(tbValue){
+            var pattern = /[:|\(|\)]/;
+            var ar = tbValue.split(pattern);
+            var sum = ar[0].toUpperCase();
+
+            if (ar.length < 3)
+                return null;
+            else if (sum != "=SUM")
+                return null;
+            else
+                return ar;
+        }
+        //Save Data to local storage
+        function SaveData(){
+            for(var i = 0; i < 20; i++){
+                for(var j = 0; j < 10; j++){
+                    localStorage.setItem(i + "-" + j, String(data[i][j]));
+                }
+            }
+            document.getElementById("StorageOutput").innerHTML = "Data Saved";
+        }
+        //Load data from local storage
+        function LoadData(){
+            for(var i = 0; i < 20; i++){
+                for(var j = 0; j < 10; j++){
+                    if(localStorage.getItem(i + "-" + j) === null) {
+                        document.getElementById("StorageOutput").innerHTML = "Storage is currently empty.";
+                        break;
+                    }
+                    data[i][j] = localStorage.getItem(i + "-" + j);
+                    document.getElementById("SpreadsheetTable").innerHTML = buildTable(20, 10, selectedRow, selectedCol);
+                }
+            }
+            document.getElementById("StorageOutput").innerHTML = "Data Loaded";
+        }
+        //clear visible data
+        function ClearData(){
+            for(var i = 0; i < 20; i++){
+                for(var j = 0; j < 10; j++){
+                    data[i][j] = 0;
+                    //localStorage.removeItem(i + "-" + j); If Clear button needed to clear storage as well
+                }
+            }
+            document.getElementById("SpreadsheetTable").innerHTML = buildTable(20, 10, selectedRow, selectedCol);
+            document.getElementById("StorageOutput").innerHTML = "Data cleared from display.";
+        }
+        //Upon user pressing enter, checks for formula and calculates output, then displays output and updates data array.
+        function ValidateEnter(evt){
+            if(evt.keyCode === 13){
+                if(getFormula(document.getElementById("txtInput").value) !== null ){
+                    //check for formula input
+                    var array = getFormula(document.getElementById("txtInput").value);
+                    var sum  = 0;
+                    //Sum along a row
+                    if(array[1].substr(1) === array[2].substr(1)) {
+                        var start = LetterToNumber(array[1].substr(0,1));
+                        var end = LetterToNumber(array[2].substr(0,1));
+                        while(start != end + 1){
+                            sum += data[array[1].substr(1)-1][start-1];
+                            start++;
+                        }
+                    }
+                    //Sum along a column
+                    if(array[1].substr(0,1) === array[2].substr(0,1)) {
+                        var start = parseInt(array[1].substr(1));
+                        var end = parseInt(array[2].substr(1));
+                        while(start != end + 1){
+                            sum += data[start-1][LetterToNumber(array[1].substr(0,1))-1];
+                            start++;
+                        }
+                    }
+                    document.getElementById(selectedRow + "_" + selectedCol).innerHTML = sum;
+                    data[selectedRow -1][selectedCol -1] = sum;
+                    formulas[selectedRow -1][selectedCol -1] = document.getElementById("txtInput").value;
+                } else {
+                    //store data in array
+                    data[selectedRow -1][selectedCol -1] = parseInt(document.getElementById("txtInput").value);
+                    document.getElementById("SpreadsheetTable").innerHTML = buildTable(20, 10, selectedRow, selectedCol);
+                    formulas[selectedRow -1][selectedCol -1] = "";
+                }
+            }
+        }
+        //calculaes sum values from string input
+        function calcSum(sumString){
+            var array = getFormula(sumString);
+            var sum  = 0;
+            //Sum along a row
+            if(array[1].substr(1) === array[2].substr(1)) {
+                var start = LetterToNumber(array[1].substr(0,1));
+                var end = LetterToNumber(array[2].substr(0,1));
+                while(start != end + 1){
+                    sum += data[array[1].substr(1)-1][start-1];
+                    start++;
+                }
+            }
+            //Sum along a column
+            if(array[1].substr(0,1) === array[2].substr(0,1)) {
+                var start = parseInt(array[1].substr(1));
+                var end = parseInt(array[2].substr(1));
+                while(start != end + 1){
+                    sum += data[start-1][LetterToNumber(array[1].substr(0,1))-1];
+                    start++;
+                }
+            }
+            return sum;
+        }
+
+        function LetterToNumber(input){
+            var output = 0;
+            switch(input){
+                case "A":
+                output = 1;
+                break;
+                case "B":
+                output = 2;
+                break;
+                case "C":
+                output = 3;
+                break;
+                case "D":
+                output = 4;
+                break;
+                case "E":
+                output = 5;
+                break;
+                case "F":
+                output = 6;
+                break;
+                case "G":
+                output = 7;
+                break;
+                case "H":
+                output = 8;
+                break;
+                case "I":
+                output = 9;
+                break;
+                case "J":
+                output = 10;
+                break;
+                default:
+                output = 10;
+            }
+            return output;
+        }
+    </script>
+</head>
+<body onload="createSpreadsheet();">
+    <div>
+        <input type="text" id="txtInput" value="0" onkeyup="ValidateEnter(event);"/>
+        <br />
+        <input id="btnLoad" type="button" value="Load" onclick="LoadData();"  />
+        <input id="btnSave" type="button" value="Save" onclick="SaveData();"  />
+        <input id="btnClear" type="button" value="Clear" onclick="ClearData();" />
+        <br /><br />
+        <div id="SpreadsheetTable">
+        </div>
+        <p>Welcome to the local storage spreadsheet demonstration site. To save data to any cell,<br/> select the cell you wish to type in,
+        select the textbox, type whatever SUM formula or number you wish and press enter. <br/>Use the Save button to save your current state
+         to local storage, <br/>the Load button to bring back a previous state from storage, <br/>and the Clear button to back to a clean state in
+         both storage and display.</p>
+        <div id="StorageOutput"></div>
+    </div>
+</body>
+</html>

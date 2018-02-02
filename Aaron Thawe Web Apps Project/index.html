@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Aaron's Hotel Locator</title>
+    <!--Linking the CSS Stylesheet-->
+    <link href="styles.css" rel="stylesheet" />
+    <!--Linking script file-->
+    <script src="script.js"></script>
+    <!--Linking Google Maps API-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90&callback=initMap&libraries=places" async defer></script>
+
+</head>
+<body>
+    <!--Outer div used as CSS Grid container-->
+    <div id="documentbody" class="main">
+        <!--Header-->
+        <div id="head">
+            <img src="earth.png" alt="logo" />
+            <h1>Local Hotel Finder</h1>
+            <h4>Use the options on the right to find local hotels in your area!</h4>
+        </div>
+        <!--Main content-->
+        <div id="bar"> 
+            <select id="SlcRange">
+                <option value="5hdist">500 metres</option>
+                <option value="1kdist">1 kilometre</option>
+                <option value="10kdist">10 kilometres</option>
+                <option value="25kdist">25 kilometres</option>
+            </select>        
+            <br /><br />
+            <input id="BtnHotel" type="button" value="Show me Local Hotels!" onclick="hotelfinder();"/> 
+            <br />
+            <!--Hidden link to show user how far away a hotel is-->
+            <p><a id="LnkDistance" href="#">How far away is that?</a></p>
+        </div>
+
+        <div id="maparea"></div>
+
+        <!--Footer-->
+        <div id="foot">
+            <p>Copyright: <a href="a_thawe@fanshaweonline.ca">Aaron Thawe</a> 2017, Fanshawe College</p>
+        </div>
+    </div>
+</body>
+</html>

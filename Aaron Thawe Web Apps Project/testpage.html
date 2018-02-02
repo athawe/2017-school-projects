@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--This is all just stuff I tried to get my query to work out nicely-->
+    <meta charset="utf-8" />
+    <title>Test Page for AJAX requests</title>
+    <!--I downloaded the most recent JQuery and tried it out-->
+    <script src="jquery-3.2.1.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90&callback=initMap&libraries=places" async defer></script>
+    <script>
+        // This is from before I realized that AJAX would not work for this type of query.
+        var httpRequest;
+        function request() {
+            
+            httpRequest = new XMLHttpRequest();
+            //document.domain = "maps.googleapis.com"
+            httpRequest.onreadystatechange = DoIT;
+            
+            httpRequest.open('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=42.98565,-81.32752&destinations=43.01198,-81.20027&key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90');
+            httpRequest.withCredentials = true;
+            httpRequest.send();
+        }
+        function DoIT() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    alert(httpRequest.responseText);
+                } else {
+                    alert('There was a problem with the request.');
+                    console.log(httpRequest.status);
+                }
+            }
+        }
+        var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=42.98565,-81.32752&destinations=43.01198,-81.20027&key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90";
+
+        //I tried out the Fetch option as well.
+
+        //fetch(url)
+        //.then(res => res.json())
+        //        .then((out) => {
+        //            console.log('heres the JSON ', out);
+        //        })
+        //        .catch(err => { throw err });
+
+        //JQuery attempts
+
+        //var output = $.getJSON('https://maps.googleapis.com/maps/api/distancematrix/json?origins=42.98565,-81.32752&destinations=43.01198,-81.20027&key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90&callback=?', '', function (data) {
+        //    var items = [];
+        //    $.each(data, function (key, val) {
+        //        items.push("<li id='" + key + "'>" + val + "</li>");
+        //    });
+
+        //    $("<ul/>", {
+        //        "class": "my-new-list",
+        //        html: items.join("")
+        //    }).appendTo("body");
+        //});
+
+        /* This was the closest to succeeding. It would actually get the JSON, though from what I can tell, it was trying to run the JSON
+         * instead of just reading it in. I kept getting missing ';' errors inside the JSON, which lead me to that conclusion. If I could 
+         * work on this further, I would continue tweaking this code until I understood it better and could get it to properly read in the
+         * JSON for me to analyze and present to the user.
+        */
+        function getJSONP(url, success) {
+
+            var ud = '_' + +new Date,
+                script = document.createElement('script'),
+                head = document.getElementsByTagName('head')[0]
+                    || document.documentElement;
+
+            window[ud] = function (data) {
+                head.removeChild(script);
+                success && success(data);
+            };
+
+            script.src = url.replace('callback=?', 'callback=' + ud);
+            head.appendChild(script);
+
+        }
+
+        var outputdata = JSON.stringify(getJSONP('https://maps.googleapis.com/maps/api/distancematrix/json?origins=42.98565,-81.32752&destinations=43.01198,-81.20027&key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90&callback=?', function (data) {
+            console.log("success");
+        }));  
+        /* 
+        https://stackoverflow.com/questions/2499567/how-to-make-a-json-call-to-a-url/2499647#2499647
+        https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
+        https://developers.google.com/maps/documentation/distance-matrix/intro
+        https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+        https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+        */
+
+
+    </script>
+    
+
+</head>
+<body>
+    <!--Some things to set off experiments as I moved through examples and ideas-->
+    <input id="btnInput" type="button" value="Test AJAX" onclick="request();"/>
+    <a href="https://maps.googleapis.com/maps/api/distancematrix/json?origins=42.98565,-81.32752&destinations=43.01198,-81.20027&key=AIzaSyCjR2vbpAnEIy29bi9YO3BLs_iTgQ96C90"
+       >test?</a></br>
+    <!--output section-->
+    <div id="output"></div>
+</body>
+</html>

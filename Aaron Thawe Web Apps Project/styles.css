@@ -1,0 +1,58 @@
+﻿/*CSS Stylesheet*/
+body {
+    background-color: orangered;
+}
+/*Setting up the CSS Grid layout*/
+.main {
+    display: grid;
+    grid-template-columns: 30% auto;
+    grid-template-rows: 20% 430px 10%; /*Visual Studio doesn't like this but it's entirely valid in the standard*/
+    grid-template-areas: "header header" "sidebar map" "footer footer";
+    grid-gap: 5px 5px;
+}
+
+#head {
+    grid-area: header;
+    min-height: 30px;
+    background-color: orange;
+}
+
+#bar {
+    grid-area: sidebar;
+    min-height: 30px;
+    background-color: orange;
+    padding-top: 20px;
+    padding-left:2px;
+}
+
+#maparea {
+    grid-area: map;
+    min-height: 30px;
+    background-color: orange;
+}
+
+#foot {
+    grid-area: footer;
+    min-height: 30px;
+    background-color: orange;
+}
+
+h1, h4, p{
+    text-align: center;
+}
+
+h1 {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+img {
+    height: 100px;
+    width: 100px;
+    float:left;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+#LnkDistance{
+    visibility:hidden;
+}

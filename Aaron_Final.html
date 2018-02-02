@@ -1,0 +1,52 @@
+﻿<!-- Test from August 2017, OOP Course, Fanshawe College.
+This program demonstrates accessing JSON data. -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aaron Final Test</title>
+<script type="text/javascript">
+var flight = {
+    airline: "Oceanic",
+    number: 815,
+    departure: {
+        IATA: "SYD",
+        dateTime: {
+            date: "2017-09-22",
+            time: "14:55"
+        },
+        city: "Sydney"
+    },
+    arrival: {
+        IATA: "LAX",
+        dateTime: {
+            date: "2017-09-23",
+            time: "10:17"
+        },
+        city: "Los Angeles"
+    }
+}
+function startMeUp() {
+var json =
+'[{"airline":"Oceanic","number":815,"departure":{"IATA":"SYD","dateTime":{"date":"2017-09-22","time":"14:55"},"city":"Sydney"},"arrival":{"IATA":"LAX","dateTime":{"date":"2017-09-23","time":"10:17"},"city":"LosAngeles"}},{"airline":"Oceanic","number":407,"departure":{"IATA":"TOR","dateTime":{"date":"2017-09-23","time":"10:55"},"city":"Toronto"},"arrival":{"IATA":"EDM","dateTime":{"date":"2017-09-23","time":"13:55"},"city":"Edmonton"}},{"airline":"Oceanic","number":326,"departure":{"IATA":"LND","dateTime":{"date":"2017-09-25","time":"04:01"},"city":"London"},"arrival":{"IATA":"VAN","dateTime":{"date":"2017-09-25","time":"09:55"},"city":"Vancouver"}}]';
+
+    var data1 = JSON.parse(json);
+    for (var i = 0; i < data1.length; i++) {
+        document.write(data1[i].airline + "<br/>");
+        document.write(data1[i].number + "<br/>");
+        document.write("&nbsp;" + data1[i].departure.IATA + "<br/>");
+        document.write("&nbsp;" + "&nbsp;" + data1[i].departure.dateTime.date + "<br/>");
+        document.write("&nbsp;" + "&nbsp;" + data1[i].departure.dateTime.time + "<br/>");
+        document.write("&nbsp;" + data1[i].departure.city + "<br/>");
+        document.write("<br/>");
+        document.write("&nbsp;" + data1[i].arrival.IATA + "<br/>");
+        document.write("&nbsp;" + "&nbsp;" + data1[i].arrival.dateTime.date + "<br/>");
+        document.write("&nbsp;" + "&nbsp;" + data1[i].arrival.dateTime.time + "<br/>");
+        document.write("&nbsp;" + data1[i].arrival.city + "<br/>");
+        document.write("<br/>");
+    }
+}
+</script>
+</head>
+<body onload="startMeUp();">
+</body>
+</html>

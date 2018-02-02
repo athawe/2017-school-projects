@@ -1,0 +1,29 @@
+﻿body {
+    background-image: url('wood.jpg');
+    font-family: 'Zilla Slab', serif;
+    font-weight:bold;
+}
+.Output{
+    position:absolute;
+    left:180px;
+    
+}
+.Label{
+    position:absolute;
+}
+.Select {
+    position: absolute;
+    left: 180px;
+}
+#btnRetrieve{
+    font-size:large;
+    border-color:aqua;
+    border-width:thick;
+}
+.Option {
+    border-color: orangered;
+    border-width: thick;
+}
+h1 {
+    font-family: 'Sedgwick Ave Display', cursive;
+}

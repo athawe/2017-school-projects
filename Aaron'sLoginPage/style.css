@@ -1,0 +1,38 @@
+﻿/*CSS Stylesheet*/
+body {
+    background-color:ivory;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1{
+    color:blue;
+    font-size:34px;
+    font-weight:bold;
+}
+
+#Form{
+    background-color:aqua;
+    padding-left:15px;
+    padding-right:20px;
+    padding-top:10px;
+    padding-bottom:10px;
+    width:300px;
+}
+
+.bigtext{
+    font-size:20px;
+    font-weight:bold;
+    color:blue;
+}
+#Save, #Cancel{
+    padding-right: 30px;
+}
+#Text1, #Pass1, #Pass2{
+    width: 100%;
+}
+#darkbuttons{
+    display:none;
+}
+#regform {
+    visibility:hidden;
+}

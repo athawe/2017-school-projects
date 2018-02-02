@@ -1,0 +1,22 @@
+{
+   "destination_addresses" : [ "Technology Dr, London, ON N5V 2A5, Canada" ],
+   "origin_addresses" : [ "114-120 Tynedale Ave, London, ON N6H, Canada" ],
+   "rows" : [
+      {
+         "elements" : [
+            {
+               "distance" : {
+                  "text" : "12.2 km",
+                  "value" : 12169
+               },
+               "duration" : {
+                  "text" : "22 mins",
+                  "value" : 1308
+               },
+               "status" : "OK"
+            }
+         ]
+      }
+   ],
+   "status" : "OK"
+}

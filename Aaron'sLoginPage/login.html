@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login Page</title>
+    <!--Implement scripts and styles-->
+    <script src="scripts/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body onload="init();">
+    <h1>SuperSite</h1>
+    <hr />
+    <!--divs for button images-->
+    <p>Already a registered SuperSite user? Sign in with one of the following services</p>
+    <div id="colouredbuttons">
+        <img src="images/FacebookShadow.ico" />
+        <img src="images/GoogleShadow.ico" />
+        <img src="images/WinLiveShadow.ico" />
+        <img src="images/YahooShadow.ico" />
+    </div>
+    <div id="darkbuttons">
+        <img src="images/FacebookGray.png" />
+        <img src="images/GoogleGray.png" />
+        <img src="images/WinLiveGray.png" />
+        <img src="images/YahooGray.png" />
+    </div>
+    
+    <p class="bigtext">Sign in with your SuperSite username and password <br />and another authentication service from the list above <br />change your SuperSite password</p>
+    <!--Div for register button-->
+    <div id="register">
+        <p>If you haven't already registered with SuperSite</p>
+        <h6 id="regbutton" class="bigtext" onclick="FormAppear();">Register Now</h6>
+    </div>
+    <br />
+    <!--outer div for everything that needs to change visibility-->
+    <div id="regform">
+        <p>Register to use SuperSite services with the following form: <br /></p>
+        <!--inner div for styling-->
+        <div id="Form">
+            <p>
+                Username:<br />
+                <input id="Text1" type="text" /><br />
+                Password:<br />
+                <input id="Pass1" type="password" value="" onchange="checkpass();"/><br />
+                Verify Password: <br />
+                <input id="Pass2" type="password" value="" onchange="checkpass();"/><br />
+                Finish your registration by signing in with one of the services above or save your registration directly.
+            </p>
+            <!--buttons for save and cancel-->
+            <input id="Save" type="button" class="bigtext" onclick="Output();" value="Save"/> <input id="Cancel" type="button" class="bigtext" onclick="Disappear();" value="Cancel"/>
+        </div>
+    </div>
+</body>
+</html>
